@@ -9,7 +9,7 @@ export default function AskGPT() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/askGPT', { question });
+            const response = await axios.post('https://askgpt-6ni3.onrender.com/askGPT', { question });
             console.log(response.data)
             console.log(typeof response.data)
             setAnswer(response.data);
