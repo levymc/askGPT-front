@@ -4,15 +4,17 @@ import styled from 'styled-components';
 
 export default function AskGPT() {
     const [question, setQuestion] = useState('');
-    const [answer, setAnswer] = useState('');
+    const [answer, setAnswer] = useState({});
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-        const response = await axios.post('URL_DA_API_GPT', { question });
-        setAnswer(response.data.answer);
+            const response = await axios.post('http://localhost:5000/askGPT', { question });
+            console.log(response.data)
+            console.log(typeof response.data)
+            setAnswer(response.data);
         } catch (error) {
-        console.error(error);
+            console.error(error);
         }
     };
 
@@ -20,7 +22,7 @@ export default function AskGPT() {
         <Container>
 
             <Form className="col s12" onSubmit={handleSubmit}>
-                    <input
+                    <textarea
                         id="question"
                         type="text"
                         className="validate"
@@ -28,9 +30,14 @@ export default function AskGPT() {
                         onChange={(e) => setQuestion(e.target.value)}
                     />
                     <button htmlFor="question" type="submit">Busque</button>
-
             </Form>
-            {answer && <p>{answer}</p>}
+            <h3>Nota: {answer.nota}</h3>
+            <h3>Emissão: {answer.emissao}</h3>
+            <h3>Discriminação: {answer.discriminacao}</h3>
+            <h3>Valor Imposto: {answer.valorImpostos}</h3>
+            <h3>Valor Serviço: {answer.valorServico}</h3>
+
+
         </Container>
     );
 }
@@ -45,6 +52,7 @@ const Form = styled.form`
     /* width: 60vw; */
     /* margin: auto; */
     display: flex;
+    gap: 1em;
     justify-content: center;
     align-items: center;
 
